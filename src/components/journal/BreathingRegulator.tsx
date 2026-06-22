@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Wind, Play, Pause } from "lucide-react";
 
 type Phase = "inhale" | "hold" | "exhale";
@@ -14,33 +14,26 @@ export function BreathingRegulator() {
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [remaining, setRemaining] = useState(PHASES[0].seconds);
   const [cycles, setCycles] = useState(0);
-  const tick = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (!active) return;
-    tick.current = setInterval(() => {
+    const id = setInterval(() => {
       setRemaining((r) => {
         if (r > 1) return r - 1;
-        // advance phase
         setPhaseIndex((pi) => {
           const next = (pi + 1) % PHASES.length;
           if (next === 0) setCycles((c) => c + 1);
-          setRemaining(PHASES[next].seconds);
           return next;
         });
-        return PHASES[(phaseIndexRef.current + 1) % PHASES.length].seconds;
+        return -1; // signal handled below
       });
     }, 1000);
-    return () => {
-      if (tick.current) clearInterval(tick.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearInterval(id);
   }, [active]);
 
-  // keep a ref of phaseIndex for the interval closure
-  const phaseIndexRef = useRef(phaseIndex);
+  // When phase changes, reset its remaining seconds.
   useEffect(() => {
-    phaseIndexRef.current = phaseIndex;
+    setRemaining(PHASES[phaseIndex].seconds);
   }, [phaseIndex]);
 
   const phase = PHASES[phaseIndex];
@@ -51,13 +44,7 @@ export function BreathingRegulator() {
     setRemaining(PHASES[0].seconds);
   };
 
-  const scale =
-    phase.key === "inhale"
-      ? "scale-100"
-      : phase.key === "hold"
-        ? "scale-100"
-        : "scale-50";
-
+  const scale = phase.key === "exhale" ? "scale-50" : "scale-100";
   const duration =
     phase.key === "inhale"
       ? "duration-[4000ms]"
@@ -91,7 +78,7 @@ export function BreathingRegulator() {
             } transition-transform ${active ? duration : "duration-700"} ease-in-out`}
           />
           <div className="relative z-10 text-center">
-            <div className="text-2xl font-semibold tabular-nums">{remaining}</div>
+            <div className="text-2xl font-semibold tabular-nums">{Math.max(remaining, 0)}</div>
             <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
               {active ? phase.label : "Ready"}
             </div>
