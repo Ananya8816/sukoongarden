@@ -1,4 +1,6 @@
-import { Sprout, Flower2, TreePine, type LucideIcon } from "lucide-react";
+import jadeImg from "@/assets/plant-jade.png";
+import lotusImg from "@/assets/plant-lotus.png";
+import sequoiaImg from "@/assets/plant-sequoia.png";
 
 export type PlantTier = "small" | "flower" | "tree";
 
@@ -10,10 +12,9 @@ export interface PlantSpecies {
   /** Required focus duration in seconds */
   durationSeconds: number;
   durationLabel: string;
-  icon: LucideIcon;
+  /** botanical illustration */
+  image: string;
   description: string;
-  /** tailwind gradient classes for the badge / icon glow */
-  accent: string;
 }
 
 export interface GrownPlant {
@@ -21,9 +22,10 @@ export interface GrownPlant {
   speciesId: string;
   name: string;
   tierLabel: string;
-  icon: LucideIcon;
-  accent: string;
+  image: string;
   completedAt: number;
+  /** slight random tilt for scrapbook feel */
+  tilt: number;
 }
 
 export const PLANT_SPECIES: PlantSpecies[] = [
@@ -31,34 +33,31 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     id: "jade-succulent",
     name: "Jade Succulent",
     tier: "small",
-    tierLabel: "Small Plant",
+    tierLabel: "Little One",
     durationSeconds: 30 * 60,
     durationLabel: "30 min",
-    icon: Sprout,
-    description: "A resilient little grower for a short, grounding session.",
-    accent: "from-emerald-400/80 to-teal-500/80",
+    image: jadeImg,
+    description: "A gentle little grower for a short, grounding session.",
   },
   {
     id: "lotus-blossom",
     name: "Lotus Blossom",
     tier: "flower",
-    tierLabel: "Flower",
+    tierLabel: "Blossom",
     durationSeconds: 60 * 60,
     durationLabel: "1 hour",
-    icon: Flower2,
+    image: lotusImg,
     description: "Unfolds gracefully across an hour of mindful focus.",
-    accent: "from-fuchsia-400/80 to-rose-500/80",
   },
   {
     id: "ancient-sequoia",
     name: "Ancient Sequoia",
     tier: "tree",
-    tierLabel: "Tree",
+    tierLabel: "Old Soul",
     durationSeconds: 120 * 60,
     durationLabel: "2 hours",
-    icon: TreePine,
-    description: "A monumental commitment — two hours of deep, intense flow.",
-    accent: "from-amber-400/80 to-orange-600/80",
+    image: sequoiaImg,
+    description: "A grand commitment — two hours of deep, rooted flow.",
   },
 ];
 

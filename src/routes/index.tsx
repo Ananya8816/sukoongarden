@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
-import { Sparkles } from "lucide-react";
+import { Leaf } from "lucide-react";
 import { BreathingRegulator } from "@/components/journal/BreathingRegulator";
 import { MoodMatrix } from "@/components/journal/MoodMatrix";
 import { GratitudeVault } from "@/components/journal/GratitudeVault";
@@ -11,24 +11,26 @@ import { getSpecies, type GrownPlant, type PlantSpecies } from "@/lib/plants";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MindSpace Journal — Calm, Focus & Grow" },
+      { title: "MindSpace Journal — A Cozy Garden for Your Mind" },
       {
         name: "description",
         content:
-          "A serene daily journal for mindful breathing, mood tracking, gratitude, and a focus garden where deep work grows beautiful plants.",
+          "A soft, cottagecore daily journal for mindful breathing, mood tracking, gratitude, and a focus garden where deep work grows into a botanical scrapbook.",
       },
       { property: "og:title", content: "MindSpace Journal" },
       {
         property: "og:description",
-        content: "Breathe, reflect, and cultivate focus in your personal mindfulness sanctuary.",
+        content: "Breathe, reflect, and grow a little garden in your personal cozy sanctuary.",
       },
     ],
   }),
   component: MindSpaceJournal,
 });
 
+const TILTS = [-3, 2, -1.5, 3, -2.5, 1.5];
+
 function seedGarden(): GrownPlant[] {
-  const make = (id: string, minsAgo: number): GrownPlant | null => {
+  const make = (id: string, minsAgo: number, tilt: number): GrownPlant | null => {
     const s = getSpecies(id);
     if (!s) return null;
     return {
@@ -36,12 +38,12 @@ function seedGarden(): GrownPlant[] {
       speciesId: s.id,
       name: s.name,
       tierLabel: s.tierLabel,
-      icon: s.icon,
-      accent: s.accent,
+      image: s.image,
       completedAt: Date.now() - minsAgo * 60000,
+      tilt,
     };
   };
-  return [make("lotus-blossom", 125), make("jade-succulent", 20)].filter(
+  return [make("lotus-blossom", 125, -3), make("jade-succulent", 20, 2.5)].filter(
     (x): x is GrownPlant => x !== null,
   );
 }
@@ -66,9 +68,9 @@ function MindSpaceJournal() {
         speciesId: species.id,
         name: species.name,
         tierLabel: species.tierLabel,
-        icon: species.icon,
-        accent: species.accent,
+        image: species.image,
         completedAt: Date.now(),
+        tilt: TILTS[Math.floor(Math.random() * TILTS.length)],
       },
       ...g,
     ]);
@@ -85,44 +87,48 @@ function MindSpaceJournal() {
   });
 
   return (
-    <div className="dark aurora-bg min-h-screen text-foreground">
-      <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-10">
+    <div className="meadow-bg min-h-screen text-foreground">
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-12">
         {/* Command header */}
-        <header className="glass mb-8 flex flex-col gap-4 rounded-3xl px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <header className="paper blob-2 mb-10 flex flex-col gap-5 px-7 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary via-lavender to-accent text-primary-foreground shadow-lg shadow-primary/30">
-              <Sparkles className="size-6" />
+            <span className="grid size-14 shrink-0 place-items-center rounded-full bg-sage/15 text-sage shadow-[inset_0_2px_8px_oklch(0.55_0.05_60_/_10%)]">
+              <Leaf className="size-7" />
             </span>
             <div className="min-w-0">
-              <h1 className="text-xl font-semibold tracking-tight md:text-2xl">
-                MindSpace <span className="text-gradient">Journal</span>
+              <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+                MindSpace <span className="italic text-gradient">Journal</span>
               </h1>
-              <p className="text-xs text-muted-foreground">Your daily sanctuary for calm & focus</p>
+              <p className="text-sm tracking-wide text-muted-foreground">
+                A cozy little garden for your mind
+              </p>
             </div>
           </div>
-          <div className="rounded-2xl border border-border/60 bg-secondary/30 px-4 py-2 text-right">
-            <p className="text-sm font-medium">{dateStr}</p>
-            <p className="font-mono text-xs tabular-nums text-muted-foreground">{timeStr}</p>
+          <div className="rounded-3xl bg-oatmeal/60 px-5 py-3 text-right">
+            <p className="font-display text-lg font-medium text-foreground">{dateStr}</p>
+            <p className="font-display text-sm italic tracking-wide text-muted-foreground">
+              {timeStr}
+            </p>
           </div>
         </header>
 
         {/* Mindset tools */}
-        <div className="mb-8 grid gap-5 lg:grid-cols-3">
+        <div className="mb-10 grid gap-6 lg:grid-cols-3">
           <BreathingRegulator />
           <MoodMatrix />
           <GratitudeVault />
         </div>
 
         {/* Focus garden core */}
-        <div className="mb-8">
+        <div className="mb-10">
           <FocusGarden onComplete={handleComplete} />
         </div>
 
         {/* Garden place sanctuary */}
         <GardenPlace plants={garden} />
 
-        <footer className="mt-10 pb-4 text-center text-xs text-muted-foreground">
-          Breathe deeply · Focus fully · Grow gently
+        <footer className="mt-12 pb-4 text-center font-display text-sm italic tracking-wide text-muted-foreground">
+          Breathe deeply · Focus gently · Grow softly
         </footer>
       </div>
     </div>
