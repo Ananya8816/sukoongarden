@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Sprout, Flower } from "lucide-react";
+import { Sprout, Flower, Sparkles } from "lucide-react";
 import { formatRelativeTime, type GrownPlant } from "@/lib/plants";
 
 interface GardenPlaceProps {
   plants: GrownPlant[];
+  onVisit?: () => void;
 }
 
-export function GardenPlace({ plants }: GardenPlaceProps) {
+export function GardenPlace({ plants, onVisit }: GardenPlaceProps) {
   const [, setNow] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setNow((n) => n + 1), 30000);
@@ -15,7 +16,7 @@ export function GardenPlace({ plants }: GardenPlaceProps) {
 
   return (
     <section className="paper blob-1 relative overflow-hidden p-7 md:p-10">
-      <div className="mb-7 flex items-center justify-between gap-4">
+      <div className="mb-7 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="grid size-11 place-items-center rounded-full bg-terracotta/15 text-terracotta">
             <Flower className="size-5" />
@@ -29,9 +30,19 @@ export function GardenPlace({ plants }: GardenPlaceProps) {
             </p>
           </div>
         </div>
-        <span className="rounded-full bg-oatmeal/70 px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
-          {plants.length} pressed
-        </span>
+        <div className="flex items-center gap-3">
+          {onVisit && (
+            <button
+              onClick={onVisit}
+              className="inline-flex items-center gap-2 rounded-full bg-sage px-4 py-2 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:shadow-md hover:shadow-sage/25 active:scale-95"
+            >
+              <Sparkles className="size-4" /> See it in the park
+            </button>
+          )}
+          <span className="rounded-full bg-oatmeal/70 px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
+            {plants.length} pressed
+          </span>
+        </div>
       </div>
 
       {plants.length === 0 ? (
@@ -57,14 +68,20 @@ export function GardenPlace({ plants }: GardenPlaceProps) {
                 {/* polaroid */}
                 <div className="w-40 bg-card p-3 pb-5 shadow-[0_14px_30px_-14px_oklch(0.5_0.07_50_/_35%)] sm:w-44">
                   <div className="grid aspect-square place-items-center overflow-hidden rounded-md bg-oatmeal/50">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      loading="lazy"
-                      width={1024}
-                      height={1024}
-                      className="size-32 object-contain transition-transform duration-500 group-hover:scale-110 sm:size-36"
-                    />
+                    {p.image ? (
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        width={1024}
+                        height={1024}
+                        className="size-32 object-contain transition-transform duration-500 group-hover:scale-110 sm:size-36"
+                      />
+                    ) : (
+                      <span className="text-7xl leading-none transition-transform duration-500 group-hover:scale-110 sm:text-8xl">
+                        {p.glyph}
+                      </span>
+                    )}
                   </div>
                   <figcaption className="mt-3 text-center">
                     <p className="font-display text-base font-medium leading-tight text-foreground">
