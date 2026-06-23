@@ -33,16 +33,23 @@ interface GardenContextValue {
 const GardenContext = createContext<GardenContextValue | null>(null);
 
 function seedGarden(): GrownPlant[] {
-  const make = (id: string, minsAgo: number): GrownPlant | null => {
+  // Deterministic seed (fixed tilt/position) so SSR and client markup match.
+  const make = (
+    id: string,
+    minsAgo: number,
+    x: number,
+    y: number,
+    tilt: number,
+  ): GrownPlant | null => {
     const s = getSpecies(id);
     if (!s) return null;
     const p = plantFromSpecies(s);
-    return { ...p, completedAt: Date.now() - minsAgo * 60000 };
+    return { ...p, uid: `seed-${id}`, completedAt: Date.now() - minsAgo * 60000, x, y, tilt };
   };
   return [
-    make("lotus-blossom", 125),
-    make("baby-sunflower", 40),
-    make("jade-succulent", 20),
+    make("lotus-blossom", 125, 26, 65, -3),
+    make("baby-sunflower", 40, 42, 72, 2),
+    make("jade-succulent", 20, 74, 70, -1.5),
   ].filter((x): x is GrownPlant => x !== null);
 }
 
