@@ -106,15 +106,20 @@ export function FocusGarden({ onComplete }: FocusGardenProps) {
                       isSel ? "scale-105" : ""
                     }`}
                   >
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      loading="lazy"
-                      width={1024}
-                      height={1024}
-                      className="size-14 object-contain"
-                    />
+                    {p.image ? (
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        width={1024}
+                        height={1024}
+                        className="size-14 object-contain"
+                      />
+                    ) : (
+                      <span className="text-3xl leading-none">{p.glyph}</span>
+                    )}
                   </span>
+
                   <span className="min-w-0 flex-1">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="font-display text-lg font-medium text-foreground">
