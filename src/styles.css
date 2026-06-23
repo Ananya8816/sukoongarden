@@ -50,14 +50,23 @@
   --color-terracotta: var(--terracotta);
   --color-oatmeal: var(--oatmeal);
 
-  --font-display: "Playfair Display", ui-serif, Georgia, serif;
-  --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, "Noto Color Emoji", serif;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, "Noto Color Emoji", sans-serif;
 
   --animate-breathe-slow: breathe-slow 4s ease-in-out infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
   --animate-grow-in: grow-in 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   --animate-sway: sway 6s ease-in-out infinite;
+  --animate-rain-fall: rain-fall 0.9s linear infinite;
+  --animate-firefly: firefly 7s ease-in-out infinite;
+  --animate-petal: petal-fall 10s linear infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-bob: bob 3.4s ease-in-out infinite;
+  --animate-ripple: ripple 5s ease-out infinite;
+  --animate-twinkle: twinkle 2.6s ease-in-out infinite;
+  --animate-spin-slow: spin 48s linear infinite;
+  --animate-plant-pop: plant-pop 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Cozy cottagecore garden journal palette — warm creams, sage, clay, terracotta */
@@ -228,3 +237,119 @@
     radial-gradient(at 20% 88%, oklch(0.86 0.05 130 / 25%) 0px, transparent 42%),
     var(--background);
 }
+
+/* ---- See Your Garden: scenic park world ---- */
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes firefly {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translate(14px, -18px);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-10px, -30px);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(8px, -12px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-8vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(108vh) translateX(40px) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) rotate(-4deg);
+  }
+  25% {
+    transform: translate(36px, -22px) rotate(6deg);
+  }
+  50% {
+    transform: translate(72px, 8px) rotate(-3deg);
+  }
+  75% {
+    transform: translate(30px, 26px) rotate(5deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(-4deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1.5deg);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes plant-pop {
+  0% {
+    transform: scale(0) translateY(14px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.25) translateY(-4px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+

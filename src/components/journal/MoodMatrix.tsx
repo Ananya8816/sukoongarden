@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Sparkles } from "lucide-react";
+import { useGarden, type MoodId } from "@/lib/garden-context";
 
-const MOODS = [
+const MOODS: { id: MoodId; label: string; emoji: string }[] = [
   { id: "radiant", label: "Radiant", emoji: "🌻" },
   { id: "calm", label: "Calm", emoji: "🍃" },
   { id: "focused", label: "Focused", emoji: "🌱" },
@@ -10,8 +10,17 @@ const MOODS = [
   { id: "grateful", label: "Grateful", emoji: "🌸" },
 ];
 
+const WEATHER_HINT: Record<MoodId, string> = {
+  radiant: "sunny skies",
+  calm: "gentle rain",
+  focused: "clear skies",
+  tired: "cozy twilight",
+  tender: "soft dawn",
+  grateful: "golden hour",
+};
+
 export function MoodMatrix() {
-  const [selected, setSelected] = useState<string | null>("calm");
+  const { mood, setMood } = useGarden();
 
   return (
     <div className="paper blob-3 p-6 transition-all duration-300">
@@ -21,17 +30,17 @@ export function MoodMatrix() {
         </span>
         <div className="min-w-0">
           <h3 className="text-xl font-medium tracking-tight text-foreground">How You Feel</h3>
-          <p className="text-xs tracking-wide text-muted-foreground">A little check-in</p>
+          <p className="text-xs tracking-wide text-muted-foreground">Sets your garden's weather</p>
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
         {MOODS.map((m) => {
-          const isActive = selected === m.id;
+          const isActive = mood === m.id;
           return (
             <button
               key={m.id}
-              onClick={() => setSelected(m.id)}
+              onClick={() => setMood(m.id)}
               className={`group flex flex-col items-center gap-2 p-3 blob-1 transition-all duration-300 ease-in-out active:scale-95 ${
                 isActive
                   ? "bg-secondary shadow-[0_8px_22px_-12px_oklch(0.5_0.07_50_/_30%)] ring-1 ring-sage/40"
@@ -51,13 +60,11 @@ export function MoodMatrix() {
         })}
       </div>
 
-      {selected && (
-        <p className="mt-4 animate-fade-in text-center font-display text-sm italic text-muted-foreground">
-          Feeling{" "}
-          <span className="text-foreground">{MOODS.find((m) => m.id === selected)?.label}</span>{" "}
-          today
-        </p>
-      )}
+      <p className="mt-4 animate-fade-in text-center font-display text-sm italic text-muted-foreground">
+        Feeling{" "}
+        <span className="text-foreground">{MOODS.find((m) => m.id === mood)?.label}</span> — your
+        park has {WEATHER_HINT[mood]}
+      </p>
     </div>
   );
 }

@@ -1,20 +1,6 @@
 import { useState } from "react";
 import { Heart, Plus } from "lucide-react";
-
-interface Entry {
-  id: string;
-  text: string;
-  at: number;
-}
-
-const SEED: Entry[] = [
-  {
-    id: "s1",
-    text: "Morning light through the window and a quiet, unhurried start.",
-    at: Date.now() - 1000 * 60 * 90,
-  },
-  { id: "s2", text: "A long walk that cleared my head completely.", at: Date.now() - 1000 * 60 * 60 * 5 },
-];
+import { useGarden } from "@/lib/garden-context";
 
 function relative(at: number) {
   const m = Math.floor((Date.now() - at) / 60000);
@@ -26,13 +12,13 @@ function relative(at: number) {
 }
 
 export function GratitudeVault() {
-  const [entries, setEntries] = useState<Entry[]>(SEED);
+  const { gratitude, addGratitude } = useGarden();
   const [draft, setDraft] = useState("");
 
   const add = () => {
     const text = draft.trim();
     if (!text) return;
-    setEntries((e) => [{ id: crypto.randomUUID(), text, at: Date.now() }, ...e]);
+    addGratitude(text);
     setDraft("");
   };
 
@@ -69,7 +55,7 @@ export function GratitudeVault() {
       </div>
 
       <div className="-mr-2 flex-1 space-y-3 overflow-y-auto pr-2">
-        {entries.map((e, i) => (
+        {gratitude.map((e, i) => (
           <div
             key={e.id}
             style={{ transform: `rotate(${i % 2 === 0 ? -0.6 : 0.6}deg)` }}

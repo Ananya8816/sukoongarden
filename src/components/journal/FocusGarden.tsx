@@ -106,15 +106,20 @@ export function FocusGarden({ onComplete }: FocusGardenProps) {
                       isSel ? "scale-105" : ""
                     }`}
                   >
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      loading="lazy"
-                      width={1024}
-                      height={1024}
-                      className="size-14 object-contain"
-                    />
+                    {p.image ? (
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        width={1024}
+                        height={1024}
+                        className="size-14 object-contain"
+                      />
+                    ) : (
+                      <span className="text-3xl leading-none">{p.glyph}</span>
+                    )}
                   </span>
+
                   <span className="min-w-0 flex-1">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="font-display text-lg font-medium text-foreground">
@@ -174,18 +179,22 @@ export function FocusGarden({ onComplete }: FocusGardenProps) {
             >
               {status === "matured" ? (
                 <span className="relative grid place-items-center">
-                  <img
-                    src={selected.image}
-                    alt={selected.name}
-                    width={1024}
-                    height={1024}
-                    className="size-36 object-contain"
-                  />
+                  {selected.image ? (
+                    <img
+                      src={selected.image}
+                      alt={selected.name}
+                      width={1024}
+                      height={1024}
+                      className="size-36 object-contain"
+                    />
+                  ) : (
+                    <span className="text-8xl leading-none">{selected.glyph}</span>
+                  )}
                   <span className="absolute -right-1 -top-1 grid size-9 place-items-center rounded-full bg-sage text-primary-foreground shadow-md">
                     <Check className="size-5" />
                   </span>
                 </span>
-              ) : (
+              ) : selected.image ? (
                 <img
                   src={selected.image}
                   alt={selected.name}
@@ -195,8 +204,17 @@ export function FocusGarden({ onComplete }: FocusGardenProps) {
                     status === "running" ? "size-40 saturate-100" : "size-28 opacity-90 saturate-[0.85]"
                   }`}
                 />
+              ) : (
+                <span
+                  className={`leading-none transition-all duration-700 ${
+                    status === "running" ? "text-8xl" : "text-7xl opacity-90"
+                  }`}
+                >
+                  {selected.glyph}
+                </span>
               )}
             </div>
+
           </div>
 
           <div className="mt-6 text-center">
