@@ -50,8 +50,8 @@
   --color-terracotta: var(--terracotta);
   --color-oatmeal: var(--oatmeal);
 
-  --font-display: "Playfair Display", ui-serif, Georgia, serif;
-  --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, "Noto Color Emoji", serif;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, "Noto Color Emoji", sans-serif;
 
   --animate-breathe-slow: breathe-slow 4s ease-in-out infinite;
   --animate-float: float 7s ease-in-out infinite;
