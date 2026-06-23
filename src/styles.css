@@ -58,6 +58,15 @@
   --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
   --animate-grow-in: grow-in 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   --animate-sway: sway 6s ease-in-out infinite;
+  --animate-rain-fall: rain-fall 0.9s linear infinite;
+  --animate-firefly: firefly 7s ease-in-out infinite;
+  --animate-petal: petal-fall 10s linear infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-bob: bob 3.4s ease-in-out infinite;
+  --animate-ripple: ripple 5s ease-out infinite;
+  --animate-twinkle: twinkle 2.6s ease-in-out infinite;
+  --animate-spin-slow: spin 48s linear infinite;
+  --animate-plant-pop: plant-pop 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Cozy cottagecore garden journal palette — warm creams, sage, clay, terracotta */
