@@ -134,8 +134,6 @@ function MindSpaceJournal() {
             <FocusGarden onComplete={plant} />
           </div>
 
-          {/* Garden place sanctuary */}
-          <GardenPlace plants={garden} onVisit={() => setInGarden(true)} />
 
           <footer className="mt-12 pb-4 text-center font-display text-sm italic tracking-wide text-muted-foreground">
             Breathe deeply · Focus gently · Grow softly
