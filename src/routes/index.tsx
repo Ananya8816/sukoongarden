@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Leaf, Sparkles } from "lucide-react";
+import { Leaf, Sprout } from "lucide-react";
 import { BreathingRegulator } from "@/components/journal/BreathingRegulator";
 import { MoodMatrix } from "@/components/journal/MoodMatrix";
 import { GratitudeVault } from "@/components/journal/GratitudeVault";
 import { FocusGarden } from "@/components/journal/FocusGarden";
-import { GardenPlace } from "@/components/journal/GardenPlace";
 import { GardenWorld } from "@/components/garden/GardenWorld";
 import { GardenProvider, useGarden } from "@/lib/garden-context";
 
