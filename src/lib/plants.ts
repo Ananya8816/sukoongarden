@@ -228,6 +228,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Old Soul",
     durationSeconds: 90 * 60,
     durationLabel: "90 min",
+    image: willowImg,
     glyph: "🌳",
     habitat: "meadow",
     description: "Long, trailing branches that sway beside the water.",
