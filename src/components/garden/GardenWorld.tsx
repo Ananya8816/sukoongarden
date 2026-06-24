@@ -100,10 +100,8 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
     setSoundOn(now);
   };
 
-  const activeVisitors = useMemo(
-    () => VISITORS.filter((v) => garden.length >= v.threshold),
-    [garden.length],
-  );
+
+
 
   // stable particle seeds
   const particles = useMemo(
