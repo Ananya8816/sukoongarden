@@ -3,6 +3,7 @@ import { ArrowLeft, Radio, X, Sparkles, BookHeart } from "lucide-react";
 import { useGarden, type MoodId } from "@/lib/garden-context";
 import { AmbientSound } from "@/lib/ambient-sound";
 import { formatRelativeTime, type GrownPlant } from "@/lib/plants";
+import { GardenAnimals } from "@/components/garden/GardenAnimals";
 
 interface GardenWorldProps {
   onClose: () => void;
@@ -63,24 +64,8 @@ const WEATHER: Record<MoodId, Weather> = {
   },
 };
 
-interface Visitor {
-  emoji: string;
-  label: string;
-  threshold: number;
-  x: number;
-  y: number;
-  size: string;
-}
 
-const VISITORS: Visitor[] = [
-  { emoji: "🦋", label: "A fluttering butterfly", threshold: 1, x: 70, y: 36, size: "text-3xl" },
-  { emoji: "🐸", label: "A frog on a lily pad", threshold: 2, x: 24, y: 67, size: "text-3xl" },
-  { emoji: "🐰", label: "A shy little bunny", threshold: 3, x: 52, y: 74, size: "text-4xl" },
-  { emoji: "🐦", label: "A singing songbird", threshold: 4, x: 40, y: 30, size: "text-2xl" },
-  { emoji: "🐱", label: "A sleepy cat", threshold: 5, x: 78, y: 70, size: "text-4xl" },
-  { emoji: "🦔", label: "A snuffling hedgehog", threshold: 6, x: 15, y: 82, size: "text-3xl" },
-  { emoji: "🦌", label: "A gentle fawn", threshold: 8, x: 64, y: 50, size: "text-5xl" },
-];
+
 
 function plantSize(tier: GrownPlant["tier"]): string {
   switch (tier) {
@@ -115,10 +100,8 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
     setSoundOn(now);
   };
 
-  const activeVisitors = useMemo(
-    () => VISITORS.filter((v) => garden.length >= v.threshold),
-    [garden.length],
-  );
+
+
 
   // stable particle seeds
   const particles = useMemo(
@@ -317,17 +300,9 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         </span>
       </button>
 
-      {/* visitors */}
-      {activeVisitors.map((v) => (
-        <div
-          key={v.label}
-          className={`pointer-events-none absolute z-20 animate-bob ${v.size}`}
-          style={{ left: `${v.x}%`, top: `${v.y}%`, animationDelay: `${(v.threshold % 4) * 0.5}s` }}
-          title={v.label}
-        >
-          <span className="drop-shadow-[0_4px_5px_oklch(0.4_0.05_60/_30%)]">{v.emoji}</span>
-        </div>
-      ))}
+      {/* rare wandering visitors — full-bodied cute doodles */}
+      <GardenAnimals grown={garden.length} />
+
 
       {/* weather particles */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -369,12 +344,20 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
           particles.slice(0, 7).map((p) => (
             <span
               key={p.id}
-              className="absolute animate-drift text-2xl"
+              className="absolute animate-drift"
               style={{ left: `${p.left}%`, top: `${30 + (p.top % 45)}%`, animationDelay: `${p.delay}s`, animationDuration: `${16 + (p.id % 8)}s` }}
             >
-              🦋
+              <svg viewBox="0 0 32 28" className="size-6 drop-shadow-[0_2px_3px_oklch(0.4_0.05_60/_25%)]">
+                <ellipse cx="9" cy="9" rx="8" ry="7" fill="oklch(0.74 0.1 35)" />
+                <ellipse cx="23" cy="9" rx="8" ry="7" fill="oklch(0.74 0.1 35)" />
+                <ellipse cx="10" cy="20" rx="6" ry="6" fill="oklch(0.8 0.09 45)" />
+                <ellipse cx="22" cy="20" rx="6" ry="6" fill="oklch(0.8 0.09 45)" />
+                <rect x="15" y="6" width="2" height="17" rx="1" fill="oklch(0.42 0.03 60)" />
+                <path d="M16 6 q-3 -5 -6 -4 M16 6 q3 -5 6 -4" stroke="oklch(0.42 0.03 60)" strokeWidth="1" fill="none" strokeLinecap="round" />
+              </svg>
             </span>
           ))}
+
       </div>
 
       {/* top bar */}

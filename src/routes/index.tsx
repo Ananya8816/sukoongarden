@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Leaf, Sparkles } from "lucide-react";
+import { Leaf, Sprout } from "lucide-react";
 import { BreathingRegulator } from "@/components/journal/BreathingRegulator";
 import { MoodMatrix } from "@/components/journal/MoodMatrix";
 import { GratitudeVault } from "@/components/journal/GratitudeVault";
 import { FocusGarden } from "@/components/journal/FocusGarden";
-import { GardenPlace } from "@/components/journal/GardenPlace";
 import { GardenWorld } from "@/components/garden/GardenWorld";
 import { GardenProvider, useGarden } from "@/lib/garden-context";
 
@@ -87,17 +86,41 @@ function MindSpaceJournal() {
             </div>
           </header>
 
-          {/* Visit garden toggle */}
-          <div className="mb-8 flex justify-center">
+          {/* Visit garden — rustic wooden signpost */}
+          <div className="mb-12 flex justify-center">
             <button
               onClick={() => setInGarden(true)}
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-r from-sage to-terracotta px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_14px_30px_-10px_oklch(0.55_0.09_80/_45%)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_18px_40px_-12px_oklch(0.55_0.09_80/_55%)] active:scale-95"
+              aria-label="Visit your garden"
+              className="group relative pt-2 transition-transform duration-300 ease-in-out hover:-translate-y-1 active:scale-[0.97]"
             >
-              <Sparkles className="size-5 transition-transform duration-300 group-hover:rotate-12" />
-              Visit Your Garden
-              <span className="text-xs font-medium opacity-90">· {garden.length} grown</span>
+              {/* wooden posts */}
+              <span className="absolute left-7 top-3 -z-10 h-[118%] w-3 rounded-full bg-gradient-to-b from-[oklch(0.5_0.06_55)] to-[oklch(0.4_0.05_50)] shadow-[inset_-2px_0_3px_oklch(0.3_0.04_45/_40%)]" />
+              <span className="absolute right-7 top-3 -z-10 h-[118%] w-3 rounded-full bg-gradient-to-b from-[oklch(0.5_0.06_55)] to-[oklch(0.4_0.05_50)] shadow-[inset_-2px_0_3px_oklch(0.3_0.04_45/_40%)]" />
+              {/* the plank */}
+              <span
+                className="relative flex items-center gap-3 rounded-[1.1rem] px-9 py-4 shadow-[0_14px_28px_-12px_oklch(0.35_0.05_45/_55%)] ring-1 ring-[oklch(0.35_0.05_45/_35%)] transition-all duration-300 group-hover:shadow-[0_18px_36px_-12px_oklch(0.35_0.05_45/_65%)]"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(92deg, oklch(0.56 0.06 55) 0 7px, oklch(0.52 0.06 53) 7px 15px), linear-gradient(180deg, oklch(0.58 0.06 56), oklch(0.48 0.06 50))",
+                  backgroundBlendMode: "soft-light, normal",
+                }}
+              >
+                {/* carved screws */}
+                <span className="absolute left-2.5 top-2.5 size-1.5 rounded-full bg-[oklch(0.36_0.04_45/_60%)]" />
+                <span className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-[oklch(0.36_0.04_45/_60%)]" />
+                <span className="absolute bottom-2.5 left-2.5 size-1.5 rounded-full bg-[oklch(0.36_0.04_45/_60%)]" />
+                <span className="absolute bottom-2.5 right-2.5 size-1.5 rounded-full bg-[oklch(0.36_0.04_45/_60%)]" />
+                <Sprout className="size-5 text-[oklch(0.94_0.05_120)] drop-shadow-[0_1px_1px_oklch(0.3_0.04_45/_60%)] transition-transform duration-300 group-hover:rotate-6" />
+                <span className="font-display text-lg font-semibold tracking-wide text-[oklch(0.96_0.03_85)] [text-shadow:0_1px_1px_oklch(0.3_0.04_45/_70%)]">
+                  Visit Your Garden
+                </span>
+                <span className="rounded-full bg-[oklch(0.4_0.05_48/_45%)] px-2.5 py-0.5 text-xs font-medium text-[oklch(0.94_0.03_85)]">
+                  {garden.length} grown
+                </span>
+              </span>
             </button>
           </div>
+
 
           {/* Mindset tools */}
           <div className="mb-10 grid gap-6 lg:grid-cols-3">
@@ -111,8 +134,6 @@ function MindSpaceJournal() {
             <FocusGarden onComplete={plant} />
           </div>
 
-          {/* Garden place sanctuary */}
-          <GardenPlace plants={garden} onVisit={() => setInGarden(true)} />
 
           <footer className="mt-12 pb-4 text-center font-display text-sm italic tracking-wide text-muted-foreground">
             Breathe deeply · Focus gently · Grow softly

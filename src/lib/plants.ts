@@ -1,6 +1,19 @@
 import jadeImg from "@/assets/plant-jade.png";
 import lotusImg from "@/assets/plant-lotus.png";
 import sequoiaImg from "@/assets/plant-sequoia.png";
+import sunflowerImg from "@/assets/plant-sunflower.png";
+import cloverImg from "@/assets/plant-clover.png";
+import mushroomImg from "@/assets/plant-mushroom.png";
+import tulipImg from "@/assets/plant-tulip.png";
+import roseImg from "@/assets/plant-rose.png";
+import waterlilyImg from "@/assets/plant-waterlily.png";
+import hibiscusImg from "@/assets/plant-hibiscus.png";
+import cactusImg from "@/assets/plant-cactus.png";
+import lavenderImg from "@/assets/plant-lavender.png";
+import pineImg from "@/assets/plant-pine.png";
+import cherryImg from "@/assets/plant-cherry.png";
+import mapleImg from "@/assets/plant-maple.png";
+import willowImg from "@/assets/plant-willow.png";
 
 export type PlantTier = "small" | "flower" | "tree" | "water" | "mushroom";
 export type Habitat = "water" | "rock" | "meadow" | "grass";
@@ -47,6 +60,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Sprout",
     durationSeconds: 5 * 60,
     durationLabel: "5 min",
+    image: sunflowerImg,
     glyph: "🌻",
     habitat: "grass",
     description: "A cheerful little face that follows every sunbeam.",
@@ -58,6 +72,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Wee One",
     durationSeconds: 10 * 60,
     durationLabel: "10 min",
+    image: cloverImg,
     glyph: "🍀",
     habitat: "grass",
     description: "A soft patch of green for a tiny grounding pause.",
@@ -69,6 +84,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Wee Cap",
     durationSeconds: 10 * 60,
     durationLabel: "10 min",
+    image: mushroomImg,
     glyph: "🍄",
     habitat: "grass",
     description: "A storybook toadstool that loves the shade of trees.",
@@ -80,6 +96,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Blossom",
     durationSeconds: 15 * 60,
     durationLabel: "15 min",
+    image: tulipImg,
     glyph: "🌷",
     habitat: "grass",
     description: "Petals that seem to hold a little candlelight inside.",
@@ -91,6 +108,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Blossom",
     durationSeconds: 20 * 60,
     durationLabel: "20 min",
+    image: roseImg,
     glyph: "🌹",
     habitat: "grass",
     description: "A tender bloom for a soft, romantic stretch of focus.",
@@ -102,6 +120,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Floating",
     durationSeconds: 20 * 60,
     durationLabel: "20 min",
+    image: waterlilyImg,
     glyph: "🪷",
     habitat: "water",
     description: "Drifts on the pond, a perfect perch for a passing frog.",
@@ -113,6 +132,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Blossom",
     durationSeconds: 25 * 60,
     durationLabel: "25 min",
+    image: hibiscusImg,
     glyph: "🌺",
     habitat: "grass",
     description: "Big, warm petals the colour of a summer evening.",
@@ -136,6 +156,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Little One",
     durationSeconds: 35 * 60,
     durationLabel: "35 min",
+    image: cactusImg,
     glyph: "🌵",
     habitat: "rock",
     description: "Tough, calm, and crowned with a surprise flower.",
@@ -147,6 +168,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Blossom",
     durationSeconds: 30 * 60,
     durationLabel: "30 min",
+    image: lavenderImg,
     glyph: "🪻",
     habitat: "grass",
     description: "A fragrant haze of purple that hums with sleepy bees.",
@@ -158,6 +180,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Young Tree",
     durationSeconds: 40 * 60,
     durationLabel: "40 min",
+    image: pineImg,
     glyph: "🌲",
     habitat: "meadow",
     description: "A crisp little evergreen for clear, steady work.",
@@ -169,6 +192,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Canopy",
     durationSeconds: 45 * 60,
     durationLabel: "45 min",
+    image: cherryImg,
     glyph: "🌸",
     habitat: "meadow",
     description: "Drifts petals across the meadow as you settle in.",
@@ -192,6 +216,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Canopy",
     durationSeconds: 60 * 60,
     durationLabel: "1 hour",
+    image: mapleImg,
     glyph: "🍁",
     habitat: "meadow",
     description: "Turns the meadow gold for a full hour of flow.",
@@ -203,6 +228,7 @@ export const PLANT_SPECIES: PlantSpecies[] = [
     tierLabel: "Old Soul",
     durationSeconds: 90 * 60,
     durationLabel: "90 min",
+    image: willowImg,
     glyph: "🌳",
     habitat: "meadow",
     description: "Long, trailing branches that sway beside the water.",
