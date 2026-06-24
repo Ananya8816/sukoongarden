@@ -344,12 +344,20 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
           particles.slice(0, 7).map((p) => (
             <span
               key={p.id}
-              className="absolute animate-drift text-2xl"
+              className="absolute animate-drift"
               style={{ left: `${p.left}%`, top: `${30 + (p.top % 45)}%`, animationDelay: `${p.delay}s`, animationDuration: `${16 + (p.id % 8)}s` }}
             >
-              🦋
+              <svg viewBox="0 0 32 28" className="size-6 drop-shadow-[0_2px_3px_oklch(0.4_0.05_60/_25%)]">
+                <ellipse cx="9" cy="9" rx="8" ry="7" fill="oklch(0.74 0.1 35)" />
+                <ellipse cx="23" cy="9" rx="8" ry="7" fill="oklch(0.74 0.1 35)" />
+                <ellipse cx="10" cy="20" rx="6" ry="6" fill="oklch(0.8 0.09 45)" />
+                <ellipse cx="22" cy="20" rx="6" ry="6" fill="oklch(0.8 0.09 45)" />
+                <rect x="15" y="6" width="2" height="17" rx="1" fill="oklch(0.42 0.03 60)" />
+                <path d="M16 6 q-3 -5 -6 -4 M16 6 q3 -5 6 -4" stroke="oklch(0.42 0.03 60)" strokeWidth="1" fill="none" strokeLinecap="round" />
+              </svg>
             </span>
           ))}
+
       </div>
 
       {/* top bar */}
