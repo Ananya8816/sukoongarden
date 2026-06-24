@@ -3,6 +3,7 @@ import { ArrowLeft, Radio, X, Sparkles, BookHeart } from "lucide-react";
 import { useGarden, type MoodId } from "@/lib/garden-context";
 import { AmbientSound } from "@/lib/ambient-sound";
 import { formatRelativeTime, type GrownPlant } from "@/lib/plants";
+import { GardenAnimals } from "@/components/garden/GardenAnimals";
 
 interface GardenWorldProps {
   onClose: () => void;
@@ -63,24 +64,8 @@ const WEATHER: Record<MoodId, Weather> = {
   },
 };
 
-interface Visitor {
-  emoji: string;
-  label: string;
-  threshold: number;
-  x: number;
-  y: number;
-  size: string;
-}
 
-const VISITORS: Visitor[] = [
-  { emoji: "🦋", label: "A fluttering butterfly", threshold: 1, x: 70, y: 36, size: "text-3xl" },
-  { emoji: "🐸", label: "A frog on a lily pad", threshold: 2, x: 24, y: 67, size: "text-3xl" },
-  { emoji: "🐰", label: "A shy little bunny", threshold: 3, x: 52, y: 74, size: "text-4xl" },
-  { emoji: "🐦", label: "A singing songbird", threshold: 4, x: 40, y: 30, size: "text-2xl" },
-  { emoji: "🐱", label: "A sleepy cat", threshold: 5, x: 78, y: 70, size: "text-4xl" },
-  { emoji: "🦔", label: "A snuffling hedgehog", threshold: 6, x: 15, y: 82, size: "text-3xl" },
-  { emoji: "🦌", label: "A gentle fawn", threshold: 8, x: 64, y: 50, size: "text-5xl" },
-];
+
 
 function plantSize(tier: GrownPlant["tier"]): string {
   switch (tier) {
