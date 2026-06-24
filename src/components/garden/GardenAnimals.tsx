@@ -164,7 +164,7 @@ export function GardenAnimals({ grown }: GardenAnimalsProps) {
     if (pool.length === 0) return;
 
     let nextId = 0;
-    let timeoutId: ReturnType<typeof window.setTimeout>;
+    let timeoutId: number;
 
     const spawn = () => {
       const critter = pool[Math.floor(Math.random() * pool.length)];
