@@ -1,6 +1,19 @@
 import jadeImg from "@/assets/plant-jade.png";
 import lotusImg from "@/assets/plant-lotus.png";
 import sequoiaImg from "@/assets/plant-sequoia.png";
+import sunflowerImg from "@/assets/plant-sunflower.png";
+import cloverImg from "@/assets/plant-clover.png";
+import mushroomImg from "@/assets/plant-mushroom.png";
+import tulipImg from "@/assets/plant-tulip.png";
+import roseImg from "@/assets/plant-rose.png";
+import waterlilyImg from "@/assets/plant-waterlily.png";
+import hibiscusImg from "@/assets/plant-hibiscus.png";
+import cactusImg from "@/assets/plant-cactus.png";
+import lavenderImg from "@/assets/plant-lavender.png";
+import pineImg from "@/assets/plant-pine.png";
+import cherryImg from "@/assets/plant-cherry.png";
+import mapleImg from "@/assets/plant-maple.png";
+import willowImg from "@/assets/plant-willow.png";
 
 export type PlantTier = "small" | "flower" | "tree" | "water" | "mushroom";
 export type Habitat = "water" | "rock" | "meadow" | "grass";
