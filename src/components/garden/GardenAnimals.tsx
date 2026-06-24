@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 
 /* ----------------------------------------------------------------------------
    Ultra-cute, full-bodied minimalist animal doodles.
@@ -130,7 +130,7 @@ interface Critter {
   type: string;
   label: string;
   threshold: number;
-  Doodle: () => JSX.Element;
+  Doodle: () => ReactElement;
   size: number;
 }
 
@@ -164,7 +164,7 @@ export function GardenAnimals({ grown }: GardenAnimalsProps) {
     if (pool.length === 0) return;
 
     let nextId = 0;
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let timeoutId: ReturnType<typeof window.setTimeout>;
 
     const spawn = () => {
       const critter = pool[Math.floor(Math.random() * pool.length)];
