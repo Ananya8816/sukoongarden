@@ -300,17 +300,9 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         </span>
       </button>
 
-      {/* visitors */}
-      {activeVisitors.map((v) => (
-        <div
-          key={v.label}
-          className={`pointer-events-none absolute z-20 animate-bob ${v.size}`}
-          style={{ left: `${v.x}%`, top: `${v.y}%`, animationDelay: `${(v.threshold % 4) * 0.5}s` }}
-          title={v.label}
-        >
-          <span className="drop-shadow-[0_4px_5px_oklch(0.4_0.05_60/_30%)]">{v.emoji}</span>
-        </div>
-      ))}
+      {/* rare wandering visitors — full-bodied cute doodles */}
+      <GardenAnimals grown={garden.length} />
+
 
       {/* weather particles */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
