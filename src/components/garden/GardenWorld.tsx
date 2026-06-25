@@ -88,7 +88,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   const [draggingUid, setDraggingUid] = useState<string | null>(null);
   const soundRef = useRef<AmbientSound | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const dragMoved = useRef(false);
+  const dragUidRef = useRef<string | null>(null);
 
   useEffect(() => {
     soundRef.current = new AmbientSound();
