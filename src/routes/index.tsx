@@ -11,13 +11,13 @@ import { GardenProvider, useGarden } from "@/lib/garden-context";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MindSpace Journal — A Cozy Garden for Your Mind" },
+      { title: "SUKOON — A Cozy Little Garden for Your Mind" },
       {
         name: "description",
         content:
           "A soft, cottagecore daily journal for mindful breathing, mood tracking, gratitude, and a focus garden you can visit as a scenic little park world.",
       },
-      { property: "og:title", content: "MindSpace Journal" },
+      { property: "og:title", content: "SUKOON" },
       {
         property: "og:description",
         content: "Breathe, reflect, and grow a scenic garden park in your personal cozy sanctuary.",
@@ -70,8 +70,8 @@ function MindSpaceJournal() {
                 <Leaf className="size-7" />
               </span>
               <div className="min-w-0">
-                <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-                  MindSpace <span className="italic text-gradient">Journal</span>
+                <h1 className="font-display text-3xl font-semibold tracking-[0.18em] text-foreground md:text-4xl">
+                  SUK<span className="italic text-gradient">OON</span>
                 </h1>
                 <p className="text-sm tracking-wide text-muted-foreground">
                   A cozy little garden for your mind

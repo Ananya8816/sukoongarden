@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Radio, X, Sparkles, BookHeart } from "lucide-react";
+import { ArrowLeft, Radio, X, Sparkles } from "lucide-react";
 import { useGarden, type MoodId } from "@/lib/garden-context";
 import { AmbientSound } from "@/lib/ambient-sound";
 import { formatRelativeTime, type GrownPlant } from "@/lib/plants";
@@ -95,8 +95,8 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   }, []);
 
   const toggleSound = () => {
-    const kind = weather.particle === "rain" ? "rain" : "chimes";
-    const now = soundRef.current?.toggle(kind) ?? false;
+    // always gentle rain — cozy, misty cottagecore mood
+    const now = soundRef.current?.toggle("rain") ?? false;
     setSoundOn(now);
   };
 
@@ -158,47 +158,87 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         style={{ background: weather.tint }}
       />
 
-      {/* pond */}
+      {/* scenic pond — soft organic shores, layered water, ripples & lily pads */}
       <svg
         className="pointer-events-none absolute"
-        style={{ left: "8%", top: "55%", width: "40%", height: "40%" }}
-        viewBox="0 0 200 160"
+        style={{ left: "6%", top: "54%", width: "46%", height: "44%" }}
+        viewBox="0 0 220 170"
         preserveAspectRatio="none"
       >
         <defs>
-          <radialGradient id="water" cx="40%" cy="35%" r="80%">
-            <stop offset="0%" stopColor="oklch(0.82 0.07 220)" />
-            <stop offset="100%" stopColor="oklch(0.66 0.1 235)" />
+          <radialGradient id="water" cx="42%" cy="34%" r="85%">
+            <stop offset="0%" stopColor="oklch(0.88 0.05 210)" />
+            <stop offset="55%" stopColor="oklch(0.8 0.07 220)" />
+            <stop offset="100%" stopColor="oklch(0.66 0.09 235)" />
           </radialGradient>
+          <radialGradient id="shore" cx="42%" cy="34%" r="85%">
+            <stop offset="0%" stopColor="oklch(0.82 0.09 135)" />
+            <stop offset="100%" stopColor="oklch(0.72 0.11 142)" />
+          </radialGradient>
+          <filter id="pondBlur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.4" />
+          </filter>
         </defs>
+
+        {/* grassy shore halo */}
         <path
-          d="M30,70 C20,30 90,20 130,38 C180,60 185,110 140,135 C95,160 40,140 28,110 C18,95 35,90 30,70 Z"
-          fill="url(#water)"
-          opacity="0.92"
+          d="M34,78 C20,34 96,18 142,40 C198,66 204,118 152,146 C100,172 40,150 28,116 C16,96 40,98 34,78 Z"
+          fill="url(#shore)"
+          opacity="0.55"
+          filter="url(#pondBlur)"
         />
+        {/* sandy rim */}
         <path
-          d="M55,58 C70,52 95,54 110,62"
+          d="M40,76 C28,38 98,24 140,44 C190,66 196,114 148,140 C100,164 46,144 36,112 C26,94 44,94 40,76 Z"
+          fill="oklch(0.88 0.05 90)"
+          opacity="0.5"
+        />
+        {/* water body */}
+        <path
+          d="M46,74 C36,42 98,30 136,48 C182,68 186,110 144,134 C100,156 52,138 44,108 C36,92 50,90 46,74 Z"
+          fill="url(#water)"
+          opacity="0.95"
+        />
+        {/* glossy highlight */}
+        <path
+          d="M64,62 C82,52 110,52 128,60"
           fill="none"
-          stroke="oklch(0.95 0.03 220 / 60%)"
-          strokeWidth="3"
+          stroke="oklch(0.97 0.02 210 / 55%)"
+          strokeWidth="4"
           strokeLinecap="round"
         />
+        {/* soft ripples */}
+        <ellipse cx="108" cy="98" rx="30" ry="11" fill="none" stroke="oklch(0.95 0.02 215 / 35%)" strokeWidth="1.6">
+          <animate attributeName="rx" values="14;36;14" dur="6s" repeatCount="indefinite" />
+          <animate attributeName="ry" values="5;13;5" dur="6s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.5;0;0.5" dur="6s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="80" cy="118" rx="18" ry="7" fill="none" stroke="oklch(0.95 0.02 215 / 30%)" strokeWidth="1.4">
+          <animate attributeName="rx" values="8;24;8" dur="7s" begin="1.5s" repeatCount="indefinite" />
+          <animate attributeName="ry" values="3;9;3" dur="7s" begin="1.5s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.45;0;0.45" dur="7s" begin="1.5s" repeatCount="indefinite" />
+        </ellipse>
+
+        {/* lily pads */}
+        {[
+          [78, 86, 13],
+          [128, 112, 11],
+          [104, 76, 9],
+        ].map(([cx, cy, r], i) => (
+          <g key={i}>
+            <ellipse cx={cx} cy={cy + 2} rx={r + 1} ry={(r + 1) * 0.45} fill="oklch(0.3 0.04 150 / 18%)" />
+            <path
+              d={`M${cx},${cy} m -${r},0 a ${r},${r * 0.55} 0 1,0 ${2 * r},0 a ${r},${r * 0.55} 0 1,0 -${2 * r},0`}
+              fill="oklch(0.66 0.13 145)"
+            />
+            <path d={`M${cx},${cy} L${cx + r * 0.7},${cy - r * 0.3}`} stroke="oklch(0.5 0.1 145)" strokeWidth="1" />
+            {i === 1 && (
+              <circle cx={cx} cy={cy - 1} r="2.6" fill="oklch(0.92 0.07 350)" />
+            )}
+          </g>
+        ))}
       </svg>
 
-      {/* winding river */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M68,30 C60,45 78,55 70,68 C64,80 80,88 76,100"
-          fill="none"
-          stroke="oklch(0.74 0.08 225 / 75%)"
-          strokeWidth="3.4"
-          strokeLinecap="round"
-        />
-      </svg>
 
       {/* stone pathway */}
       <div className="pointer-events-none absolute inset-0">
@@ -276,29 +316,24 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         </div>
       ))}
 
-      {/* picnic blanket */}
+      {/* love letter envelope — tucked discreetly near the top corner */}
       <button
         onClick={() => setShowPicnic(true)}
-        aria-label="Open the gratitude scrapbook on the picnic blanket"
-        className="group absolute z-30 transition-transform duration-300 hover:scale-105 active:scale-95"
-        style={{ left: "58%", top: "78%" }}
+        aria-label="Open your gratitude love letter"
+        className="group absolute right-4 top-[5.5rem] z-40 transition-transform duration-300 hover:-translate-y-0.5 hover:rotate-[-3deg] active:scale-95 md:right-6 md:top-24"
       >
-        <div
-          className="relative grid size-24 place-items-center rounded-[1.4rem] shadow-[0_10px_24px_-10px_oklch(0.4_0.06_40/_45%)] sm:size-28"
-          style={{
-            transform: "rotate(-8deg) skewX(-6deg)",
-            backgroundImage:
-              "repeating-linear-gradient(45deg, oklch(0.74 0.12 25) 0 14px, oklch(0.96 0.02 90) 14px 28px)",
-          }}
-        >
-          <span className="grid size-11 place-items-center rounded-full bg-card/90 text-clay shadow-md">
-            <BookHeart className="size-6" />
-          </span>
-        </div>
-        <span className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/90 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow transition-opacity duration-300 group-hover:opacity-100">
-          Gratitude picnic
+        <span className="relative grid size-12 place-items-center rounded-2xl bg-[oklch(0.96_0.03_85)] shadow-[0_8px_20px_-8px_oklch(0.4_0.06_40/_55%)] ring-1 ring-[oklch(0.7_0.05_60/_40%)] sm:size-14">
+          <svg viewBox="0 0 40 30" className="size-7 sm:size-8">
+            <rect x="1.5" y="3" width="37" height="24" rx="4" fill="oklch(0.93 0.04 80)" stroke="oklch(0.66 0.06 55)" strokeWidth="1.4" />
+            <path d="M2,5 L20,18 L38,5" fill="none" stroke="oklch(0.66 0.06 55)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M20 22 c-2.2 -2.6 -6 -1.4 -6 1.4 c0 2.4 3.4 4 6 6 c2.6 -2 6 -3.6 6 -6 c0 -2.8 -3.8 -4 -6 -1.4 Z" fill="oklch(0.72 0.14 25)" />
+          </svg>
+        </span>
+        <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/90 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow transition-opacity duration-300 group-hover:opacity-100">
+          A little love letter
         </span>
       </button>
+
 
       {/* rare wandering visitors — full-bodied cute doodles */}
       <GardenAnimals grown={garden.length} />
@@ -402,59 +437,70 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
             />
           ))}
         </span>
-        <span className="text-xs font-semibold tracking-wide">{soundOn ? "Playing" : "Sounds"}</span>
+        <span className="text-xs font-semibold tracking-wide">{soundOn ? "Raining" : "Rain"}</span>
       </button>
 
-      {/* picnic scrapbook overlay */}
+      {/* gratitude love letter overlay — unfolded handwritten parchment */}
       {showPicnic && (
         <div
           className="absolute inset-0 z-50 grid place-items-center bg-[oklch(0.3_0.04_60/_45%)] p-4 backdrop-blur-sm"
           onClick={() => setShowPicnic(false)}
         >
           <div
-            className="paper-strong blob-2 relative max-h-[80vh] w-full max-w-lg animate-scale-in overflow-hidden p-6 md:p-8"
+            className="relative max-h-[82vh] w-full max-w-lg animate-scale-in overflow-hidden rounded-[1.6rem] p-7 shadow-[0_30px_70px_-25px_oklch(0.3_0.05_45/_65%)] md:p-9"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: "oklch(0.96 0.03 88)",
+              backgroundImage:
+                "radial-gradient(circle at 18% 12%, oklch(0.92 0.05 80 / 60%) 0%, transparent 45%), radial-gradient(circle at 85% 90%, oklch(0.9 0.05 70 / 55%) 0%, transparent 50%), repeating-linear-gradient(0deg, oklch(0.66 0.04 55 / 7%) 0 1px, transparent 1px 30px)",
+              border: "1px solid oklch(0.78 0.05 65 / 60%)",
+            }}
           >
+            {/* torn-paper top edge accents */}
+            <span className="pointer-events-none absolute inset-x-0 top-0 h-2 bg-[repeating-linear-gradient(90deg,oklch(0.88_0.05_75)_0_10px,transparent_10px_20px)] opacity-40" />
             <button
               onClick={() => setShowPicnic(false)}
-              aria-label="Close scrapbook"
-              className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-oatmeal/70 text-muted-foreground transition-all duration-300 hover:bg-oatmeal active:scale-90"
+              aria-label="Close love letter"
+              className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-[oklch(0.88_0.05_70/_70%)] text-muted-foreground transition-all duration-300 hover:bg-[oklch(0.85_0.05_65)] active:scale-90"
             >
               <X className="size-4" />
             </button>
-            <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-full bg-terracotta/15 text-terracotta">
-                <BookHeart className="size-5" />
-              </span>
-              <div>
-                <h2 className="font-display text-2xl font-semibold text-foreground">
-                  Gratitude Picnic
-                </h2>
-                <p className="text-sm text-muted-foreground">Little joys, tucked into the grass</p>
-              </div>
+
+            <div className="mb-5 text-center">
+              <p className="font-display text-xs uppercase tracking-[0.35em] text-clay">My dearest you,</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold italic text-foreground">
+                A Letter of Gratitude
+              </h2>
+              <div className="mx-auto mt-3 h-px w-24 bg-[oklch(0.7_0.06_55/_50%)]" />
             </div>
-            <div className="-mr-2 max-h-[52vh] space-y-3 overflow-y-auto pr-2">
+
+            <div className="-mr-2 max-h-[52vh] space-y-4 overflow-y-auto pr-2">
               {gratitude.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                  No notes yet — add some gratitude back in the journal.
+                <p className="py-10 text-center font-display text-sm italic text-muted-foreground">
+                  The page is still blank — write some gratitude back in the journal,
+                  and your words will be tucked here like pressed flowers.
                 </p>
               ) : (
                 gratitude.map((e, i) => (
                   <div
                     key={e.id}
-                    style={{ transform: `rotate(${i % 2 === 0 ? -0.8 : 0.8}deg)` }}
-                    className="rounded-2xl bg-oatmeal/50 p-4 transition-transform duration-300 hover:!rotate-0"
+                    className="border-b border-dashed border-[oklch(0.72_0.05_55/_40%)] pb-4 last:border-0"
                   >
-                    <p className="font-display text-sm italic leading-relaxed text-foreground/90">
-                      “{e.text}”
+                    <p className="font-display text-base italic leading-relaxed text-foreground/90">
+                      <span className="mr-1 text-clay">{i % 2 === 0 ? "♡" : "✿"}</span>
+                      {e.text}
                     </p>
-                    <p className="mt-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="mt-1.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       {formatRelativeTime(e.at)}
                     </p>
                   </div>
                 ))
               )}
             </div>
+
+            <p className="mt-6 text-right font-display text-lg italic text-clay">
+              with love, always ♡
+            </p>
           </div>
         </div>
       )}
