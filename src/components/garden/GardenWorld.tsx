@@ -95,10 +95,19 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   }, []);
 
   const toggleSound = () => {
-    const kind = weather.particle === "rain" ? "rain" : "chimes";
-    const now = soundRef.current?.toggle(kind) ?? false;
+    // always gentle rain — cozy, misty cottagecore mood
+    const now = soundRef.current?.toggle("rain") ?? false;
     setSoundOn(now);
   };
+
+  // auto-start gentle rain when entering the garden
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const now = soundRef.current?.toggle("rain") ?? false;
+      setSoundOn(now);
+    }, 400);
+    return () => clearTimeout(id);
+  }, []);
 
 
 
