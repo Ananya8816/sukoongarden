@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Wind, Play, Pause } from "lucide-react";
 
-type Phase = "inhale" | "hold" | "exhale";
+type Phase = "inhale" | "hold-in" | "exhale" | "hold-out";
 
 const PHASES: { key: Phase; label: string; seconds: number }[] = [
   { key: "inhale", label: "Breathe in", seconds: 4 },
-  { key: "hold", label: "Hold", seconds: 7 },
-  { key: "exhale", label: "Breathe out", seconds: 8 },
+  { key: "hold-in", label: "Hold", seconds: 4 },
+  { key: "exhale", label: "Breathe out", seconds: 4 },
+  { key: "hold-out", label: "Hold", seconds: 4 },
 ];
 
 export function BreathingRegulator() {
