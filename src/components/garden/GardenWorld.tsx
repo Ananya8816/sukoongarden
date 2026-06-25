@@ -132,9 +132,11 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   const handlePlantPointerDown = (uid: string) => (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log("DRAG down", uid);
     dragUidRef.current = uid;
     setDraggingUid(uid);
   };
+
 
 
 
