@@ -106,23 +106,23 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   // --- drag a grown plant anywhere on the map ---
   const handlePlantPointerDown = (uid: string) => (e: React.PointerEvent) => {
     e.preventDefault();
-    dragMoved.current = false;
+    dragUidRef.current = uid;
     setDraggingUid(uid);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePlantPointerMove = (uid: string) => (e: React.PointerEvent) => {
-    if (draggingUid !== uid) return;
+    if (dragUidRef.current !== uid) return;
     const rect = rootRef.current?.getBoundingClientRect();
     if (!rect) return;
-    dragMoved.current = true;
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     movePlant(uid, x, y);
   };
 
   const handlePlantPointerUp = (uid: string) => (e: React.PointerEvent) => {
-    if (draggingUid !== uid) return;
+    if (dragUidRef.current !== uid) return;
+    dragUidRef.current = null;
     setDraggingUid(null);
     try {
       (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
@@ -130,6 +130,8 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
       /* pointer already released */
     }
   };
+
+
 
 
 
