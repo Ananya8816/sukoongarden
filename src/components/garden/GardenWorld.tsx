@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Radio, X, Sparkles, BookHeart } from "lucide-react";
+import { ArrowLeft, Radio, X, Sparkles } from "lucide-react";
 import { useGarden, type MoodId } from "@/lib/garden-context";
 import { AmbientSound } from "@/lib/ambient-sound";
 import { formatRelativeTime, type GrownPlant } from "@/lib/plants";
