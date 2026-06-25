@@ -81,11 +81,14 @@ function plantSize(tier: GrownPlant["tier"]): string {
 }
 
 export function GardenWorld({ onClose }: GardenWorldProps) {
-  const { garden, mood, gratitude } = useGarden();
+  const { garden, mood, gratitude, movePlant } = useGarden();
   const weather = WEATHER[mood];
   const [showPicnic, setShowPicnic] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
+  const [draggingUid, setDraggingUid] = useState<string | null>(null);
   const soundRef = useRef<AmbientSound | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const dragMoved = useRef(false);
 
   useEffect(() => {
     soundRef.current = new AmbientSound();
