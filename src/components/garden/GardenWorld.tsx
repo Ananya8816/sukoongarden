@@ -194,7 +194,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
       {/* scenic pond — soft organic shores, layered water, ripples & lily pads */}
       <svg
         className="pointer-events-none absolute"
-        style={{ left: "6%", top: "54%", width: "46%", height: "44%" }}
+        style={{ left: "-6%", top: "40%", width: "70%", height: "62%" }}
         viewBox="0 0 220 170"
         preserveAspectRatio="none"
       >
