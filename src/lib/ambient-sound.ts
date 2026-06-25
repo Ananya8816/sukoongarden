@@ -92,12 +92,42 @@ export class AmbientSound {
     this.kind = kind;
     if (this.playing) this.stopInternal();
     this.startRainBed();
-    this.scheduleChime();
+    // Pure, gentle rain — no chimes layered on top of the rain bed.
+    if (kind === "chimes") this.scheduleChime();
+    else this.scheduleDrop();
     const now = this.ctx.currentTime;
     this.master.gain.cancelScheduledValues(now);
     this.master.gain.setValueAtTime(Math.max(this.master.gain.value, 0.0001), now);
     this.master.gain.exponentialRampToValueAtTime(0.5, now + 1.2);
     this.playing = true;
+  }
+
+  private scheduleDrop() {
+    if (!this.ctx) return;
+    const delay = 700 + Math.random() * 1600;
+    this.chimeTimer = setTimeout(() => {
+      this.playDrop();
+      this.scheduleDrop();
+    }, delay);
+  }
+
+  private playDrop() {
+    const ctx = this.ctx;
+    if (!ctx || !this.master) return;
+    // soft, rounded rain droplet — a quick filtered blip
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    const startF = 480 + Math.random() * 320;
+    const now = ctx.currentTime;
+    osc.frequency.setValueAtTime(startF, now);
+    osc.frequency.exponentialRampToValueAtTime(startF * 0.55, now + 0.12);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.05 + Math.random() * 0.04, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+    osc.connect(g).connect(this.master);
+    osc.start(now);
+    osc.stop(now + 0.22);
   }
 
   private stopInternal() {
