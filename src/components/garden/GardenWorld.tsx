@@ -150,7 +150,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   );
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div ref={rootRef} className="fixed inset-0 z-50 touch-none overflow-hidden">
       {/* sky */}
       <div
         className="absolute inset-0 transition-all duration-700 ease-in-out"
