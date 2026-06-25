@@ -324,9 +324,6 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
           <div
             key={p.uid}
             onPointerDown={handlePlantPointerDown(p.uid)}
-            onPointerMove={handlePlantPointerMove(p.uid)}
-            onPointerUp={handlePlantPointerUp(p.uid)}
-            onPointerCancel={handlePlantPointerUp(p.uid)}
             className={`group absolute -translate-x-1/2 -translate-y-full touch-none select-none ${
               isDragging ? "z-[60] cursor-grabbing" : "cursor-grab"
             }`}
