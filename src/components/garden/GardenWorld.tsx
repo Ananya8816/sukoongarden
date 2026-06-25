@@ -316,29 +316,24 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         </div>
       ))}
 
-      {/* picnic blanket */}
+      {/* love letter envelope — tucked discreetly near the top corner */}
       <button
         onClick={() => setShowPicnic(true)}
-        aria-label="Open the gratitude scrapbook on the picnic blanket"
-        className="group absolute z-30 transition-transform duration-300 hover:scale-105 active:scale-95"
-        style={{ left: "58%", top: "78%" }}
+        aria-label="Open your gratitude love letter"
+        className="group absolute right-4 top-[5.5rem] z-40 transition-transform duration-300 hover:-translate-y-0.5 hover:rotate-[-3deg] active:scale-95 md:right-6 md:top-24"
       >
-        <div
-          className="relative grid size-24 place-items-center rounded-[1.4rem] shadow-[0_10px_24px_-10px_oklch(0.4_0.06_40/_45%)] sm:size-28"
-          style={{
-            transform: "rotate(-8deg) skewX(-6deg)",
-            backgroundImage:
-              "repeating-linear-gradient(45deg, oklch(0.74 0.12 25) 0 14px, oklch(0.96 0.02 90) 14px 28px)",
-          }}
-        >
-          <span className="grid size-11 place-items-center rounded-full bg-card/90 text-clay shadow-md">
-            <BookHeart className="size-6" />
-          </span>
-        </div>
-        <span className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/90 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow transition-opacity duration-300 group-hover:opacity-100">
-          Gratitude picnic
+        <span className="relative grid size-12 place-items-center rounded-2xl bg-[oklch(0.96_0.03_85)] shadow-[0_8px_20px_-8px_oklch(0.4_0.06_40/_55%)] ring-1 ring-[oklch(0.7_0.05_60/_40%)] sm:size-14">
+          <svg viewBox="0 0 40 30" className="size-7 sm:size-8">
+            <rect x="1.5" y="3" width="37" height="24" rx="4" fill="oklch(0.93 0.04 80)" stroke="oklch(0.66 0.06 55)" strokeWidth="1.4" />
+            <path d="M2,5 L20,18 L38,5" fill="none" stroke="oklch(0.66 0.06 55)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M20 22 c-2.2 -2.6 -6 -1.4 -6 1.4 c0 2.4 3.4 4 6 6 c2.6 -2 6 -3.6 6 -6 c0 -2.8 -3.8 -4 -6 -1.4 Z" fill="oklch(0.72 0.14 25)" />
+          </svg>
+        </span>
+        <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/90 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow transition-opacity duration-300 group-hover:opacity-100">
+          A little love letter
         </span>
       </button>
+
 
       {/* rare wandering visitors — full-bodied cute doodles */}
       <GardenAnimals grown={garden.length} />
