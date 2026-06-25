@@ -440,56 +440,67 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         <span className="text-xs font-semibold tracking-wide">{soundOn ? "Playing" : "Sounds"}</span>
       </button>
 
-      {/* picnic scrapbook overlay */}
+      {/* gratitude love letter overlay — unfolded handwritten parchment */}
       {showPicnic && (
         <div
           className="absolute inset-0 z-50 grid place-items-center bg-[oklch(0.3_0.04_60/_45%)] p-4 backdrop-blur-sm"
           onClick={() => setShowPicnic(false)}
         >
           <div
-            className="paper-strong blob-2 relative max-h-[80vh] w-full max-w-lg animate-scale-in overflow-hidden p-6 md:p-8"
+            className="relative max-h-[82vh] w-full max-w-lg animate-scale-in overflow-hidden rounded-[1.6rem] p-7 shadow-[0_30px_70px_-25px_oklch(0.3_0.05_45/_65%)] md:p-9"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: "oklch(0.96 0.03 88)",
+              backgroundImage:
+                "radial-gradient(circle at 18% 12%, oklch(0.92 0.05 80 / 60%) 0%, transparent 45%), radial-gradient(circle at 85% 90%, oklch(0.9 0.05 70 / 55%) 0%, transparent 50%), repeating-linear-gradient(0deg, oklch(0.66 0.04 55 / 7%) 0 1px, transparent 1px 30px)",
+              border: "1px solid oklch(0.78 0.05 65 / 60%)",
+            }}
           >
+            {/* torn-paper top edge accents */}
+            <span className="pointer-events-none absolute inset-x-0 top-0 h-2 bg-[repeating-linear-gradient(90deg,oklch(0.88_0.05_75)_0_10px,transparent_10px_20px)] opacity-40" />
             <button
               onClick={() => setShowPicnic(false)}
-              aria-label="Close scrapbook"
-              className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-oatmeal/70 text-muted-foreground transition-all duration-300 hover:bg-oatmeal active:scale-90"
+              aria-label="Close love letter"
+              className="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-[oklch(0.88_0.05_70/_70%)] text-muted-foreground transition-all duration-300 hover:bg-[oklch(0.85_0.05_65)] active:scale-90"
             >
               <X className="size-4" />
             </button>
-            <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-full bg-terracotta/15 text-terracotta">
-                <BookHeart className="size-5" />
-              </span>
-              <div>
-                <h2 className="font-display text-2xl font-semibold text-foreground">
-                  Gratitude Picnic
-                </h2>
-                <p className="text-sm text-muted-foreground">Little joys, tucked into the grass</p>
-              </div>
+
+            <div className="mb-5 text-center">
+              <p className="font-display text-xs uppercase tracking-[0.35em] text-clay">My dearest you,</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold italic text-foreground">
+                A Letter of Gratitude
+              </h2>
+              <div className="mx-auto mt-3 h-px w-24 bg-[oklch(0.7_0.06_55/_50%)]" />
             </div>
-            <div className="-mr-2 max-h-[52vh] space-y-3 overflow-y-auto pr-2">
+
+            <div className="-mr-2 max-h-[52vh] space-y-4 overflow-y-auto pr-2">
               {gratitude.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                  No notes yet — add some gratitude back in the journal.
+                <p className="py-10 text-center font-display text-sm italic text-muted-foreground">
+                  The page is still blank — write some gratitude back in the journal,
+                  and your words will be tucked here like pressed flowers.
                 </p>
               ) : (
                 gratitude.map((e, i) => (
                   <div
                     key={e.id}
-                    style={{ transform: `rotate(${i % 2 === 0 ? -0.8 : 0.8}deg)` }}
-                    className="rounded-2xl bg-oatmeal/50 p-4 transition-transform duration-300 hover:!rotate-0"
+                    className="border-b border-dashed border-[oklch(0.72_0.05_55/_40%)] pb-4 last:border-0"
                   >
-                    <p className="font-display text-sm italic leading-relaxed text-foreground/90">
-                      “{e.text}”
+                    <p className="font-display text-base italic leading-relaxed text-foreground/90">
+                      <span className="mr-1 text-clay">{i % 2 === 0 ? "♡" : "✿"}</span>
+                      {e.text}
                     </p>
-                    <p className="mt-2 text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="mt-1.5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       {formatRelativeTime(e.at)}
                     </p>
                   </div>
                 ))
               )}
             </div>
+
+            <p className="mt-6 text-right font-display text-lg italic text-clay">
+              with love, always ♡
+            </p>
           </div>
         </div>
       )}
