@@ -76,6 +76,16 @@ export function GardenProvider({ children }: { children: ReactNode }) {
     setGarden((g) => [plantFromSpecies(species), ...g]);
   }, []);
 
+  const movePlant = useCallback((uid: string, x: number, y: number) => {
+    setGarden((g) =>
+      g.map((p) =>
+        p.uid === uid
+          ? { ...p, x: Math.max(2, Math.min(98, x)), y: Math.max(34, Math.min(98, y)) }
+          : p,
+      ),
+    );
+  }, []);
+
   const addGratitude = useCallback((text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
@@ -83,8 +93,8 @@ export function GardenProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<GardenContextValue>(
-    () => ({ garden, plant, mood, setMood, gratitude, addGratitude }),
-    [garden, plant, mood, gratitude, addGratitude],
+    () => ({ garden, plant, movePlant, mood, setMood, gratitude, addGratitude }),
+    [garden, plant, movePlant, mood, gratitude, addGratitude],
   );
 
   return <GardenContext.Provider value={value}>{children}</GardenContext.Provider>;
