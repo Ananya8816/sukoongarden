@@ -44,13 +44,9 @@ export function BreathingRegulator() {
     setRemaining(PHASES[0].seconds);
   };
 
-  const scale = phase.key === "exhale" ? "scale-50" : "scale-100";
-  const duration =
-    phase.key === "inhale"
-      ? "duration-[4000ms]"
-      : phase.key === "exhale"
-        ? "duration-[8000ms]"
-        : "duration-700";
+  const scale =
+    phase.key === "exhale" || phase.key === "hold-out" ? "scale-50" : "scale-100";
+  const duration = "duration-[4000ms]";
 
   return (
     <div className="paper blob-1 p-6 transition-all duration-300">
@@ -60,7 +56,7 @@ export function BreathingRegulator() {
         </span>
         <div className="min-w-0">
           <h3 className="text-xl font-medium tracking-tight text-foreground">Quiet Breath</h3>
-          <p className="text-xs tracking-wide text-muted-foreground">4 · 7 · 8 gentle reset</p>
+          <p className="text-xs tracking-wide text-muted-foreground">4 · 4 · 4 · 4 box breathing</p>
         </div>
       </div>
 
