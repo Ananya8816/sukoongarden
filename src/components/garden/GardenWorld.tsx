@@ -81,11 +81,14 @@ function plantSize(tier: GrownPlant["tier"]): string {
 }
 
 export function GardenWorld({ onClose }: GardenWorldProps) {
-  const { garden, mood, gratitude } = useGarden();
+  const { garden, mood, gratitude, movePlant } = useGarden();
   const weather = WEATHER[mood];
   const [showPicnic, setShowPicnic] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
+  const [draggingUid, setDraggingUid] = useState<string | null>(null);
   const soundRef = useRef<AmbientSound | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const dragUidRef = useRef<string | null>(null);
 
   useEffect(() => {
     soundRef.current = new AmbientSound();
@@ -99,6 +102,47 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
     const now = soundRef.current?.toggle("rain") ?? false;
     setSoundOn(now);
   };
+
+  // --- drag a grown plant anywhere on the map (window-level listeners) ---
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const uid = dragUidRef.current;
+      if (!uid) return;
+      const rect = rootRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      movePlant(uid, x, y);
+    };
+    const onUp = () => {
+      if (!dragUidRef.current) return;
+      dragUidRef.current = null;
+      setDraggingUid(null);
+    };
+    window.addEventListener("pointermove", onMove, { passive: false });
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, [movePlant]);
+
+  const handlePlantPointerDown = (uid: string) => (e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragUidRef.current = uid;
+    setDraggingUid(uid);
+  };
+
+
+
+
+
+
+
+
 
 
 
@@ -117,7 +161,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
   );
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div ref={rootRef} className="fixed inset-0 z-50 touch-none overflow-hidden">
       {/* sky */}
       <div
         className="absolute inset-0 transition-all duration-700 ease-in-out"
@@ -161,7 +205,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
       {/* scenic pond — soft organic shores, layered water, ripples & lily pads */}
       <svg
         className="pointer-events-none absolute"
-        style={{ left: "6%", top: "54%", width: "46%", height: "44%" }}
+        style={{ left: "-6%", top: "40%", width: "70%", height: "62%" }}
         viewBox="0 0 220 170"
         preserveAspectRatio="none"
       >
@@ -275,46 +319,67 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         ))}
       </div>
 
-      {/* planted world */}
-      {garden.map((p, i) => (
-        <div
-          key={p.uid}
-          className="group absolute -translate-x-1/2 -translate-y-full cursor-default"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            zIndex: 10 + Math.round(p.y),
-            animation: `plant-pop 0.9s cubic-bezier(0.22,1,0.36,1) ${Math.min(i * 0.05, 1)}s both`,
-          }}
-        >
+      {/* planted world — drag any grown plant anywhere on the map */}
+      {garden.map((p, i) => {
+        const isDragging = draggingUid === p.uid;
+        return (
           <div
-            className="origin-bottom animate-sway"
-            style={{ animationDelay: `${(i % 5) * 0.6}s` }}
+            key={p.uid}
+            onPointerDown={handlePlantPointerDown(p.uid)}
+            className={`group absolute -translate-x-1/2 -translate-y-full touch-none select-none ${
+              isDragging ? "z-[60] cursor-grabbing" : "cursor-grab"
+            }`}
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              zIndex: isDragging ? 60 : 10 + Math.round(p.y),
+              animation: isDragging
+                ? undefined
+                : `plant-pop 0.9s cubic-bezier(0.22,1,0.36,1) ${Math.min(i * 0.05, 1)}s both`,
+              transition: isDragging ? "none" : "filter 0.3s ease",
+            }}
           >
-            {p.image ? (
-              <img
-                src={p.image}
-                alt={p.name}
-                className="size-16 object-contain drop-shadow-[0_6px_8px_oklch(0.4_0.05_60/_35%)] sm:size-20"
-                style={{ transform: `rotate(${p.tilt}deg)` }}
-              />
-            ) : (
-              <span
-                className={`block leading-none drop-shadow-[0_5px_6px_oklch(0.4_0.05_60/_35%)] ${plantSize(p.tier)}`}
-                style={{ transform: `rotate(${p.tilt}deg)` }}
-              >
-                {p.glyph}
-              </span>
-            )}
+            <div
+              className={isDragging ? "origin-bottom" : "origin-bottom animate-sway"}
+              style={{
+                animationDelay: `${(i % 5) * 0.6}s`,
+                transform: isDragging ? "scale(1.12)" : undefined,
+                transition: "transform 0.2s ease-out",
+              }}
+            >
+              {p.image ? (
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  draggable={false}
+                  className={`size-16 object-contain drop-shadow-[0_6px_8px_oklch(0.4_0.05_60/_35%)] sm:size-20 ${
+                    isDragging ? "drop-shadow-[0_16px_18px_oklch(0.35_0.05_60/_45%)]" : ""
+                  }`}
+                  style={{ transform: `rotate(${p.tilt}deg)` }}
+                />
+              ) : (
+                <span
+                  className={`block leading-none drop-shadow-[0_5px_6px_oklch(0.4_0.05_60/_35%)] ${plantSize(p.tier)}`}
+                  style={{ transform: `rotate(${p.tilt}deg)` }}
+                >
+                  {p.glyph}
+                </span>
+              )}
+            </div>
+            {/* shadow */}
+            <span
+              className={`absolute -bottom-1 left-1/2 h-2 -translate-x-1/2 rounded-[50%] bg-[oklch(0.3_0.03_60/_25%)] blur-[2px] transition-all duration-200 ${
+                isDragging ? "w-10 opacity-40" : "w-8"
+              }`}
+            />
+            {/* name on hover */}
+            <span className="pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/95 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow-md transition-opacity duration-300 group-hover:opacity-100">
+              {p.name}
+            </span>
           </div>
-          {/* shadow */}
-          <span className="absolute -bottom-1 left-1/2 h-2 w-8 -translate-x-1/2 rounded-[50%] bg-[oklch(0.3_0.03_60/_25%)] blur-[2px]" />
-          {/* name on hover */}
-          <span className="pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-card/95 px-2.5 py-1 text-[11px] font-semibold text-foreground opacity-0 shadow-md transition-opacity duration-300 group-hover:opacity-100">
-            {p.name}
-          </span>
-        </div>
-      ))}
+        );
+      })}
+
 
       {/* love letter envelope — tucked discreetly near the top corner */}
       <button
