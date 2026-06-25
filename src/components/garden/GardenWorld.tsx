@@ -158,47 +158,87 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
         style={{ background: weather.tint }}
       />
 
-      {/* pond */}
+      {/* scenic pond — soft organic shores, layered water, ripples & lily pads */}
       <svg
         className="pointer-events-none absolute"
-        style={{ left: "8%", top: "55%", width: "40%", height: "40%" }}
-        viewBox="0 0 200 160"
+        style={{ left: "6%", top: "54%", width: "46%", height: "44%" }}
+        viewBox="0 0 220 170"
         preserveAspectRatio="none"
       >
         <defs>
-          <radialGradient id="water" cx="40%" cy="35%" r="80%">
-            <stop offset="0%" stopColor="oklch(0.82 0.07 220)" />
-            <stop offset="100%" stopColor="oklch(0.66 0.1 235)" />
+          <radialGradient id="water" cx="42%" cy="34%" r="85%">
+            <stop offset="0%" stopColor="oklch(0.88 0.05 210)" />
+            <stop offset="55%" stopColor="oklch(0.8 0.07 220)" />
+            <stop offset="100%" stopColor="oklch(0.66 0.09 235)" />
           </radialGradient>
+          <radialGradient id="shore" cx="42%" cy="34%" r="85%">
+            <stop offset="0%" stopColor="oklch(0.82 0.09 135)" />
+            <stop offset="100%" stopColor="oklch(0.72 0.11 142)" />
+          </radialGradient>
+          <filter id="pondBlur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.4" />
+          </filter>
         </defs>
+
+        {/* grassy shore halo */}
         <path
-          d="M30,70 C20,30 90,20 130,38 C180,60 185,110 140,135 C95,160 40,140 28,110 C18,95 35,90 30,70 Z"
-          fill="url(#water)"
-          opacity="0.92"
+          d="M34,78 C20,34 96,18 142,40 C198,66 204,118 152,146 C100,172 40,150 28,116 C16,96 40,98 34,78 Z"
+          fill="url(#shore)"
+          opacity="0.55"
+          filter="url(#pondBlur)"
         />
+        {/* sandy rim */}
         <path
-          d="M55,58 C70,52 95,54 110,62"
+          d="M40,76 C28,38 98,24 140,44 C190,66 196,114 148,140 C100,164 46,144 36,112 C26,94 44,94 40,76 Z"
+          fill="oklch(0.88 0.05 90)"
+          opacity="0.5"
+        />
+        {/* water body */}
+        <path
+          d="M46,74 C36,42 98,30 136,48 C182,68 186,110 144,134 C100,156 52,138 44,108 C36,92 50,90 46,74 Z"
+          fill="url(#water)"
+          opacity="0.95"
+        />
+        {/* glossy highlight */}
+        <path
+          d="M64,62 C82,52 110,52 128,60"
           fill="none"
-          stroke="oklch(0.95 0.03 220 / 60%)"
-          strokeWidth="3"
+          stroke="oklch(0.97 0.02 210 / 55%)"
+          strokeWidth="4"
           strokeLinecap="round"
         />
+        {/* soft ripples */}
+        <ellipse cx="108" cy="98" rx="30" ry="11" fill="none" stroke="oklch(0.95 0.02 215 / 35%)" strokeWidth="1.6">
+          <animate attributeName="rx" values="14;36;14" dur="6s" repeatCount="indefinite" />
+          <animate attributeName="ry" values="5;13;5" dur="6s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.5;0;0.5" dur="6s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="80" cy="118" rx="18" ry="7" fill="none" stroke="oklch(0.95 0.02 215 / 30%)" strokeWidth="1.4">
+          <animate attributeName="rx" values="8;24;8" dur="7s" begin="1.5s" repeatCount="indefinite" />
+          <animate attributeName="ry" values="3;9;3" dur="7s" begin="1.5s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.45;0;0.45" dur="7s" begin="1.5s" repeatCount="indefinite" />
+        </ellipse>
+
+        {/* lily pads */}
+        {[
+          [78, 86, 13],
+          [128, 112, 11],
+          [104, 76, 9],
+        ].map(([cx, cy, r], i) => (
+          <g key={i}>
+            <ellipse cx={cx} cy={cy + 2} rx={r + 1} ry={(r + 1) * 0.45} fill="oklch(0.3 0.04 150 / 18%)" />
+            <path
+              d={`M${cx},${cy} m -${r},0 a ${r},${r * 0.55} 0 1,0 ${2 * r},0 a ${r},${r * 0.55} 0 1,0 -${2 * r},0`}
+              fill="oklch(0.66 0.13 145)"
+            />
+            <path d={`M${cx},${cy} L${cx + r * 0.7},${cy - r * 0.3}`} stroke="oklch(0.5 0.1 145)" strokeWidth="1" />
+            {i === 1 && (
+              <circle cx={cx} cy={cy - 1} r="2.6" fill="oklch(0.92 0.07 350)" />
+            )}
+          </g>
+        ))}
       </svg>
 
-      {/* winding river */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M68,30 C60,45 78,55 70,68 C64,80 80,88 76,100"
-          fill="none"
-          stroke="oklch(0.74 0.08 225 / 75%)"
-          strokeWidth="3.4"
-          strokeLinecap="round"
-        />
-      </svg>
 
       {/* stone pathway */}
       <div className="pointer-events-none absolute inset-0">
