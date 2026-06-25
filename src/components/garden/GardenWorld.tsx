@@ -100,15 +100,6 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
     setSoundOn(now);
   };
 
-  // auto-start gentle rain when entering the garden
-  useEffect(() => {
-    const id = setTimeout(() => {
-      const now = soundRef.current?.toggle("rain") ?? false;
-      setSoundOn(now);
-    }, 400);
-    return () => clearTimeout(id);
-  }, []);
-
 
 
 
