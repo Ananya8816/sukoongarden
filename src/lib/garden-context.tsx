@@ -24,6 +24,7 @@ export type MoodId = "radiant" | "calm" | "focused" | "tired" | "tender" | "grat
 interface GardenContextValue {
   garden: GrownPlant[];
   plant: (species: PlantSpecies) => void;
+  movePlant: (uid: string, x: number, y: number) => void;
   mood: MoodId;
   setMood: (m: MoodId) => void;
   gratitude: GratitudeEntry[];
