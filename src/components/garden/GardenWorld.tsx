@@ -437,7 +437,7 @@ export function GardenWorld({ onClose }: GardenWorldProps) {
             />
           ))}
         </span>
-        <span className="text-xs font-semibold tracking-wide">{soundOn ? "Playing" : "Sounds"}</span>
+        <span className="text-xs font-semibold tracking-wide">{soundOn ? "Raining" : "Rain"}</span>
       </button>
 
       {/* gratitude love letter overlay — unfolded handwritten parchment */}
