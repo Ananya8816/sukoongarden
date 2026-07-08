@@ -2,7 +2,7 @@
 
 ## Live Website
 
-Live link coming soon. Once the project is deployed, add the website URL here so visitors can open SUKOON Garden directly in their browser.
+[Open SUKOON Garden](https://sukoongarden.lovable.app/)
 
 ## Overview
 
