@@ -247,29 +247,69 @@ export const PLANT_SPECIES: PlantSpecies[] = [
   },
 ];
 
-const HABITAT_REGIONS: Record<Habitat, { x: [number, number]; y: [number, number] }> = {
-  // pond sits lower-left
-  water: { x: [15, 37], y: [60, 73] },
-  // rocky nook lower-right
-  rock: { x: [63, 85], y: [62, 78] },
-  // open meadow up top for trees
-  meadow: { x: [26, 74], y: [24, 48] },
-  // grassy expanse for flowers & small ones
-  grass: { x: [10, 88], y: [46, 86] },
+/**
+ * Grouped garden zones (in % of the screen). `y` is where the plant's feet
+ * rest, so every zone keeps stems on the grass (feet >= ~50%) — nothing floats
+ * in the sky band. Each type gets its own tidy corner of the world.
+ */
+type Zone = { x: [number, number]; y: [number, number] };
+
+const ZONES: Record<string, Zone> = {
+  // a grove of trees along the back, standing on the hillside
+  trees: { x: [46, 90], y: [50, 61] },
+  // lily pads & lotus floating on the pond (lower-left)
+  water: { x: [16, 42], y: [60, 74] },
+  // a sunny patch of sunflowers on the right
+  sunflowers: { x: [66, 84], y: [72, 83] },
+  // a shady toadstool nook near the front-left
+  mushrooms: { x: [28, 44], y: [82, 90] },
+  // potted plants lined along the right edge
+  potted: { x: [88, 96], y: [66, 88] },
+  // a mixed flowerbed across the front
+  flowerbed: { x: [48, 66], y: [83, 92] },
+};
+
+/** Which zone each species belongs to, so like grows beside like. */
+const SPECIES_ZONE: Record<string, keyof typeof ZONES> = {
+  "weeping-willow": "trees",
+  "cherry-blossom": "trees",
+  "maple-tree": "trees",
+  "pine-sapling": "trees",
+  "ancient-sequoia": "trees",
+  "water-lily": "water",
+  "lotus-blossom": "water",
+  "baby-sunflower": "sunflowers",
+  "fairy-mushroom": "mushrooms",
+  "jade-succulent": "potted",
+  "cactus-bloom": "potted",
+  "glowing-tulip": "flowerbed",
+  "pink-rose": "flowerbed",
+  "hibiscus": "flowerbed",
+  "lavender-bush": "flowerbed",
+  "lucky-clover": "flowerbed",
+};
+
+/** Fallback zone by habitat for any species not explicitly mapped. */
+const HABITAT_FALLBACK: Record<Habitat, keyof typeof ZONES> = {
+  water: "water",
+  rock: "potted",
+  meadow: "trees",
+  grass: "flowerbed",
 };
 
 function rand(min: number, max: number): number {
   return Math.round((min + Math.random() * (max - min)) * 10) / 10;
 }
 
-/** Pick a random plot on the world map appropriate to the plant's habitat. */
-export function randomPlot(habitat: Habitat): { x: number; y: number } {
-  const r = HABITAT_REGIONS[habitat];
+/** Pick a random plot within the plant's grouped zone (feet always on grass). */
+export function randomPlot(speciesId: string, habitat: Habitat): { x: number; y: number } {
+  const zoneKey = SPECIES_ZONE[speciesId] ?? HABITAT_FALLBACK[habitat];
+  const r = ZONES[zoneKey];
   return { x: rand(r.x[0], r.x[1]), y: rand(r.y[0], r.y[1]) };
 }
 
 export function plantFromSpecies(s: PlantSpecies): GrownPlant {
-  const plot = randomPlot(s.habitat);
+  const plot = randomPlot(s.id, s.habitat);
   return {
     uid: crypto.randomUUID(),
     speciesId: s.id,
@@ -285,6 +325,7 @@ export function plantFromSpecies(s: PlantSpecies): GrownPlant {
     y: plot.y,
   };
 }
+
 
 export function getSpecies(id: string): PlantSpecies | undefined {
   return PLANT_SPECIES.find((p) => p.id === id);
