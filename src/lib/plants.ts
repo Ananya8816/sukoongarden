@@ -261,12 +261,12 @@ const ZONES: Record<string, Zone> = {
   water: { x: [16, 42], y: [60, 74] },
   // a sunny patch of sunflowers on the right
   sunflowers: { x: [66, 84], y: [72, 83] },
-  // a shady toadstool nook near the front-left
-  mushrooms: { x: [28, 44], y: [82, 90] },
+  // a shady toadstool nook on the grass beside the pond
+  mushrooms: { x: [42, 50], y: [84, 91] },
   // potted plants lined along the right edge
   potted: { x: [88, 96], y: [66, 88] },
   // a mixed flowerbed across the front
-  flowerbed: { x: [48, 66], y: [83, 92] },
+  flowerbed: { x: [54, 70], y: [83, 92] },
 };
 
 /** Which zone each species belongs to, so like grows beside like. */
