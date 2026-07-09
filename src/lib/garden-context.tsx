@@ -48,27 +48,9 @@ function seedGarden(): GrownPlant[] {
     return { ...p, uid: `seed-${id}`, completedAt: Date.now() - minsAgo * 60000, x, y, tilt };
   };
   return [
-    // TEMP PREVIEW SEED — grouped zones
-    make("weeping-willow", 200, 50, 55, -2),
-    make("cherry-blossom", 190, 62, 52, 2),
-    make("maple-tree", 180, 74, 56, -1),
-    make("ancient-sequoia", 170, 84, 53, 1.5),
-    make("pine-sapling", 160, 56, 58, -2),
-    make("lotus-blossom", 140, 22, 66, -3),
-    make("water-lily", 130, 32, 70, 2),
-    make("lotus-blossom", 120, 28, 62, 1),
-    make("baby-sunflower", 110, 68, 76, 2),
-    make("baby-sunflower", 105, 76, 80, -2),
-    make("baby-sunflower", 100, 82, 74, 1.5),
-    make("fairy-mushroom", 90, 32, 85, -1),
-    make("fairy-mushroom", 85, 38, 88, 2),
-    make("jade-succulent", 80, 90, 70, -1.5),
-    make("cactus-bloom", 75, 93, 82, 2),
-    make("glowing-tulip", 70, 50, 86, -2),
-    make("pink-rose", 65, 58, 88, 1.5),
-    make("hibiscus", 60, 62, 84, -1),
-    make("lavender-bush", 55, 54, 90, 2),
-    make("lucky-clover", 50, 64, 90, -1),
+    make("lotus-blossom", 125, 30, 66, -3),
+    make("baby-sunflower", 40, 74, 78, 2),
+    make("jade-succulent", 20, 92, 80, -1.5),
   ].filter((x): x is GrownPlant => x !== null);
 }
 
