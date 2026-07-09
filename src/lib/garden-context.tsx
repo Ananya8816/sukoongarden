@@ -48,9 +48,30 @@ function seedGarden(): GrownPlant[] {
     return { ...p, uid: `seed-${id}`, completedAt: Date.now() - minsAgo * 60000, x, y, tilt };
   };
   return [
-    make("lotus-blossom", 125, 26, 65, -3),
-    make("baby-sunflower", 40, 42, 72, 2),
-    make("jade-succulent", 20, 74, 70, -1.5),
+    // trees across the meadow
+    make("weeping-willow", 200, 20, 30, -2),
+    make("cherry-blossom", 190, 34, 26, 2),
+    make("maple-tree", 180, 48, 30, -1),
+    make("ancient-sequoia", 170, 62, 27, 1.5),
+    make("pine-sapling", 160, 72, 33, -2),
+    make("cherry-blossom", 150, 8, 34, 3),
+    // water plants on the pond
+    make("lotus-blossom", 140, 16, 66, -3),
+    make("water-lily", 130, 26, 70, 2),
+    make("lotus-blossom", 120, 22, 62, 1),
+    // flowers scattered on the grass
+    make("baby-sunflower", 110, 40, 74, 2),
+    make("glowing-tulip", 100, 52, 78, -2),
+    make("pink-rose", 95, 64, 74, 1.5),
+    make("hibiscus", 90, 34, 82, -1),
+    make("lavender-bush", 85, 76, 80, 2),
+    make("baby-sunflower", 80, 84, 72, -2),
+    make("glowing-tulip", 75, 14, 84, 3),
+    make("lucky-clover", 70, 58, 86, -1),
+    make("fairy-mushroom", 65, 46, 66, 1),
+    // rocky nook
+    make("jade-succulent", 60, 70, 70, -1.5),
+    make("cactus-bloom", 55, 80, 66, 2),
   ].filter((x): x is GrownPlant => x !== null);
 }
 
