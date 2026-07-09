@@ -48,9 +48,9 @@ function seedGarden(): GrownPlant[] {
     return { ...p, uid: `seed-${id}`, completedAt: Date.now() - minsAgo * 60000, x, y, tilt };
   };
   return [
-    make("lotus-blossom", 125, 26, 65, -3),
-    make("baby-sunflower", 40, 42, 72, 2),
-    make("jade-succulent", 20, 74, 70, -1.5),
+    make("lotus-blossom", 125, 30, 66, -3),
+    make("baby-sunflower", 40, 74, 78, 2),
+    make("jade-succulent", 20, 92, 80, -1.5),
   ].filter((x): x is GrownPlant => x !== null);
 }
 
